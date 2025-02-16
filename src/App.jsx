@@ -10,11 +10,12 @@ function Header({ name, year }) {
     </header>
   );
 }
+
 const items = [
   "Macaroni and Cheese",
-  "Steak with Potatoes",
+  "Salmon with Potatoes",
   "Tofu with Vegetables",
-  "Tomato Soup"
+  "Minestrone Soup",
 ];
 
 const dishObjects = items.map((dish, i) => ({ id: i, title: dish }));
@@ -23,14 +24,18 @@ function Main({ dishes, openStatus, onStatus }) {
   return (
     <>
       <div>
-        <button onClick={() => onStatus(true)}> I want to be open </button>
-        <h2> Welcome to this beautiful restaurant!{" "} {openStatus ? "Open" : "Closed"} </h2>
+        <button onClick={() => onStatus(true)}>I want to be open</button>
+        <h2>
+          Welcome to this beautiful restaurant! {openStatus ? "Open" : "Closed"}
+        </h2>
       </div>
       <main>
-        <img src={chef} height={200} alt="A photo of a chef" />
+        <img src={chef} alt="A photo of a smiling chef owner" height={200} />
         <ul>
           {dishes.map((dish) => (
-            <li key={dish.id} style={{ listStyleType: "none" }} > {dish.title} </li>
+            <li key={dish.id} style={{ listStyleType: "none" }}>
+              {dish.title}
+            </li>
           ))}
         </ul>
       </main>
@@ -39,15 +44,19 @@ function Main({ dishes, openStatus, onStatus }) {
 }
 
 function App() {
-  const [status, toggle] = useReducer( (status) => !status, true );
-  useEffect(() => { console.log( `The restaurant is ${status ? "open" : "closed"}.` ); }, [status]);
+  const [status, toggle] = useReducer((status) => !status, true);
+
+  useEffect(() => {
+    console.log(`The restaurant is ${status ? "open" : "closed"}.`);
+  }, [status]);
+
   return (
-    <div>
-      <h1> The restaurant is currently{" "} {status ? "open" : "closed"}. </h1>
-      <button onClick={toggle}> {status ? "Close" : "Open"} Restaurant </button>
-      <Header name="Donivan" year={new Date().getFullYear()} />
+    <>
+      <h1>The restaurant is currently {status ? "open" : "closed"}.</h1>
+      <button onClick={toggle}>{status ? "Close" : "Open"} Restaurant</button>
+      <Header name="Alex" year={new Date().getFullYear()} />
       <Main dishes={dishObjects} openStatus={status} onStatus={toggle} />
-    </div>
+    </>
   );
 }
 
